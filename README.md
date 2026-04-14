@@ -1,3 +1,4 @@
+![Header](header.png)
 # 🎯 YouTube Feedback Analyzer
 
 > Transforme 500 commentaires YouTube en insights actionnables en 2 minutes avec l'IA
