@@ -16,7 +16,7 @@ class YoutubeService
       response = @service.list_comment_threads(
         "snippet",
         video_id: video_id,
-        max_results: 100,          # max autorisé par appel API
+        max_results: 100,
         page_token: next_page_token,
         text_format: "plainText"
       )
@@ -31,7 +31,20 @@ class YoutubeService
     end
 
     comments
+  rescue Google::Apis::ClientError => e
+    raise VideoNotFoundError if e.status_code == 404
+    raise CommentsDisabledError if e.message.include?("commentsDisabled")
+    raise QuotaExceededError if e.status_code == 403
+    raise e
+  rescue Faraday::TimeoutError, Net::OpenTimeout
+    raise TimeoutError
   end
+
+  # Custom errors — chaque cas d'erreur a son propre type pour les gérer séparément
+  class VideoNotFoundError < StandardError; end
+  class CommentsDisabledError < StandardError; end
+  class QuotaExceededError < StandardError; end
+  class TimeoutError < StandardError; end
 
   # Extrait l'ID d'une URL YouTube (ex: https://youtube.com/watch?v=abc123 → "abc123")
   def self.extract_video_id(url)
