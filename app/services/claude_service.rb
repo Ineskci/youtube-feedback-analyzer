@@ -32,7 +32,7 @@ class ClaudeService
           { "title": "...", "description": "...", "count": 0 }
         ],
         "feature_requests": [
-          { "title": "...", "description": "...", "votes": 0 }
+          { "title": "...", "description": "...", "votes": 0, "priority": "Critical", "sentiment": "positive" }
         ],
         "sentiment": {
           "positive": 0,
@@ -44,7 +44,10 @@ class ClaudeService
 
       Rules:
       - pain_points: top 5 recurring problems with estimated frequency
-      - feature_requests: top 5 feature requests
+      - feature_requests: top 5 feature requests, sorted by votes descending, each with:
+          * votes: estimated number of mentions
+          * priority: "Critical" (many mentions + frustration), "Quick Win" (easy to implement + high demand), or "Nice to Have" (low frequency)
+          * sentiment: "positive" (enthusiastic requests) or "negative" (frustrated requests)
       - sentiment: percentages that must total 100
       - summary: executive summary in 2-3 sentences
       - Always respond in English, regardless of the comments language
