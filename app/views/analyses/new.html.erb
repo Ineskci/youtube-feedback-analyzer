@@ -6,7 +6,7 @@
     </div>
     <p class="text-gray-500 mb-6">Paste a YouTube video URL to analyze its comments with AI.</p>
 
-    <%= form_with model: @analysis, url: analyses_path, data: { turbo: false } do |f| %>
+    <%= form_with model: @analysis do |f| %>
       <% if @analysis.errors.any? %>
         <div class="bg-red-50 text-red-700 p-3 rounded mb-4">
           <%= @analysis.errors.full_messages.first %>
@@ -21,7 +21,7 @@
 
       <%= f.submit "Analyze comments →",
           class: "w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg cursor-pointer",
-          data: { disable_with: "Analyzing..." } %>
+          data: { turbo_submits_with: "Analyzing..." } %>
     <% end %>
   </div>
 </div>
