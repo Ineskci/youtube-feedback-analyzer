@@ -13,4 +13,16 @@ class Analysis < ApplicationRecord
   def comments_array=(array)
     self.comments = array.to_json
   end
+
+  # Retourne les résultats Claude sous forme de hash Ruby
+  def ai_analysis_hash
+    return {} if ai_analysis.blank?
+    JSON.parse(ai_analysis)
+  rescue JSON::ParserError
+    {}
+  end
+
+  def ai_analysis_hash=(hash)
+    self.ai_analysis = hash.to_json
+  end
 end

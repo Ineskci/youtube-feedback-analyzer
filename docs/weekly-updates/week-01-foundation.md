@@ -22,8 +22,8 @@ Créer les fondations du projet :
 - [x] Repo GitHub créé et structuré (`/docs`)
 - [x] PRODUCT_BRIEF_V3.md rédigé
 - [x] ROADMAP.md détaillée
-- [ ] Rails app créée (PostgreSQL + Tailwind)
-- [ ] YouTube Data API configurée
+- [x] Rails app créée (PostgreSQL + Tailwind)
+- [x] YouTube Data API configurée
 - [ ] Anthropic API configurée
 
 ### Feature #1 : Pain Points Clustering

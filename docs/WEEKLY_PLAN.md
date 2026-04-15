@@ -25,15 +25,15 @@
 #### Jour 1-2 : Setup & Documentation (3h)
 - [x] Créer le repo GitHub ✅
 - [x] Structure /docs ✅
-- [ ] README.md professionnel
-- [ ] Setup Rails app avec Claude Code
-- [ ] Decision Record : "Pourquoi Rails ?"
-- [ ] **Livrable** : Weekly Update #1
+- [x] README.md professionnel
+- [x] Setup Rails app avec Claude Code
+- [x] Decision Record : "Pourquoi Rails ?"
+- [x] **Livrable** : Weekly Update #1
 
 #### Jour 3-4 : YouTube API Integration (4h)
-- [ ] S'inscrire à YouTube Data API
-- [ ] Créer le contrôleur Videos
-- [ ] Récupérer les commentaires d'une vidéo
+- [x] S'inscrire à YouTube Data API
+- [x] Créer le contrôleur Videos
+- [x] Récupérer les commentaires d'une vidéo
 - [ ] Afficher dans une vue simple
 - [ ] **Documenter** : Prompt utilisé + erreurs
 

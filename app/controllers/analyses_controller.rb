@@ -12,8 +12,10 @@ class AnalysesController < ApplicationController
       render :new, status: :unprocessable_entity and return
     end
 
-    service = YoutubeService.new
-    comments = service.fetch_comments(video_id)
+    youtube = YoutubeService.new
+    comments = youtube.fetch_comments(video_id)
+
+    ai_result = ClaudeService.new.analyze_comments(comments)
 
     @analysis = Analysis.new(
       video_url: params[:analysis][:video_url],
@@ -21,6 +23,7 @@ class AnalysesController < ApplicationController
       status: "completed"
     )
     @analysis.comments_array = comments
+    @analysis.ai_analysis_hash = ai_result
     @analysis.save!
 
     redirect_to analysis_path(@analysis)
