@@ -25,7 +25,7 @@ class ClaudeService
     comments_text = comments.first(200).map.with_index(1) { |c, i| "#{i}. #{c}" }.join("\n")
 
     <<~PROMPT
-      Tu es un expert en analyse de feedback produit. Analyse ces #{comments.size} commentaires YouTube et retourne UNIQUEMENT un JSON valide avec cette structure exacte :
+      You are a product feedback analyst. Analyze these #{comments.size} YouTube comments and return ONLY a valid JSON with this exact structure:
 
       {
         "pain_points": [
@@ -42,16 +42,17 @@ class ClaudeService
         "summary": "..."
       }
 
-      Règles :
-      - pain_points : top 5 problèmes récurrents avec leur fréquence estimée
-      - feature_requests : top 5 demandes de fonctionnalités
-      - sentiment : pourcentages (doivent totaliser 100)
-      - summary : résumé exécutif en 2-3 phrases
+      Rules:
+      - pain_points: top 5 recurring problems with estimated frequency
+      - feature_requests: top 5 feature requests
+      - sentiment: percentages that must total 100
+      - summary: executive summary in 2-3 sentences
+      - Always respond in English, regardless of the comments language
 
-      Commentaires à analyser :
+      Comments to analyze:
       #{comments_text}
 
-      Réponds UNIQUEMENT avec le JSON, sans texte avant ou après.
+      Respond ONLY with the JSON, no text before or after.
     PROMPT
   end
 

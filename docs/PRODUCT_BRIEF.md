@@ -1,7 +1,6 @@
 📝 PRODUCT_BRIEF.md — Contenu Complet
-Copie-colle TOUT ce qui suit dans ton fichier docs/PRODUCT_BRIEF.md :
 
-markdown# 🚀 YouTube Feedback Analyzer — Product Brief V2.0
+# 🚀 YouTube Feedback Analyzer — Product Brief V2.0
 **Projet PM Portfolio-Ready avec Documentation Publique**
 
 ---

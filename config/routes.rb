@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :analyses, only: [:new, :create, :show]
+  resources :analyses, only: [:index, :new, :create, :show]
   root "analyses#new"
 
   get "up" => "rails/health#show", as: :rails_health_check

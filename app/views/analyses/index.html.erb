@@ -1,0 +1,37 @@
+<div class="min-h-screen bg-gray-50 p-8">
+  <div class="max-w-3xl mx-auto">
+
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-900">Analysis History</h1>
+      <%= link_to "+ New analysis", new_analysis_path,
+          class: "bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2 rounded-lg" %>
+    </div>
+
+    <% if @analyses.empty? %>
+      <div class="bg-white rounded-xl shadow-md p-8 text-center text-gray-400">
+        No analyses yet.
+        <%= link_to "Analyze a video", new_analysis_path, class: "text-red-600 hover:underline" %>
+      </div>
+    <% else %>
+      <ul class="space-y-3">
+        <% @analyses.each do |analysis| %>
+          <li>
+            <%= link_to analysis_path(analysis), class: "block bg-white rounded-xl shadow-sm hover:shadow-md p-5 transition" do %>
+              <div class="flex justify-between items-start">
+                <div>
+                  <p class="font-medium text-gray-900 truncate max-w-md"><%= analysis.video_url %></p>
+                  <p class="text-sm text-gray-400 mt-1">
+                    <%= analysis.comments_array.size %> comments •
+                    <%= analysis.created_at.strftime("%b %d, %Y at %H:%M") %>
+                  </p>
+                </div>
+                <span class="text-sm text-gray-400">→</span>
+              </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
+  </div>
+</div>

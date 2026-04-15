@@ -1,4 +1,8 @@
 class AnalysesController < ApplicationController
+  def index
+    @analyses = Analysis.order(created_at: :desc)
+  end
+
   def new
     @analysis = Analysis.new
   end
