@@ -23,32 +23,32 @@ Rails app opérationnelle + YouTube API intégrée + Feature #1 (Pain Points Clu
 ### Jour 1-2 : Setup Rapide (3h)
 
 **Lundi 2h :**
-- [ ] Finaliser structure `/docs` sur GitHub
-- [ ] Créer Rails app : `rails new youtube-feedback-analyzer --database=postgresql --css=tailwind`
-- [ ] Test : `rails server` démarre
-- [ ] **Livrable :** Commit "chore: initial Rails setup"
+- [x] Finaliser structure `/docs` sur GitHub
+- [x] Créer Rails app : `rails new youtube-feedback-analyzer --database=postgresql --css=tailwind`
+- [x] Test : `rails server` démarre
+- [x] **Livrable :** Commit "chore: initial Rails setup"
 
 **Mardi 1h :**
-- [ ] S'inscrire à YouTube Data API (Google Cloud Console)
-- [ ] Obtenir API key
-- [ ] S'inscrire à Anthropic API
-- [ ] Obtenir API key Claude
-- [ ] Configurer `.env` avec les 2 clés
-- [ ] **Livrable :** Decision Record #003 "Rails Setup Choices"
+- [x] S'inscrire à YouTube Data API (Google Cloud Console)
+- [x] Obtenir API key
+- [x] S'inscrire à Anthropic API
+- [x] Obtenir API key Claude
+- [x] Configurer `.env` avec les 2 clés
+- [x] **Livrable :** Decision Record #003 "Rails Setup Choices"
 
 ### Jour 3-4 : Feature #1 Backend (4h)
 
 **Mercredi 2h :**
-- [ ] Générer modèle `Video` : `rails g model Video url:string title:string`
-- [ ] Générer modèle `Comment` : `rails g model Comment video:references content:text author:string`
-- [ ] Migrer : `rails db:migrate`
-- [ ] Créer service `YouTubeService` pour fetch comments
-- [ ] Test manuel : récupérer 10 comments d'une vidéo dans `rails console`
+- [x] Générer modèle `Video` : `rails g model Video url:string title:string`
+- [x] Générer modèle `Comment` : `rails g model Comment video:references content:text author:string`
+- [x] Migrer : `rails db:migrate`
+- [√] Créer service `YouTubeService` pour fetch comments
+- [x] Test manuel : récupérer 10 comments d'une vidéo dans `rails console`
 
 **Jeudi 2h :**
-- [ ] Créer service `PainPointsAnalyzer`
-- [ ] Rédiger prompt Claude v0.1 (brouillon)
-- [ ] Appeler Claude API avec prompt
+- [x] Créer service `PainPointsAnalyzer`
+- [x] Rédiger prompt Claude v0.1 (brouillon)
+- [x] Appeler Claude API avec prompt
 - [ ] Parser la réponse JSON
 - [ ] Stocker résultats (dans `Video` ou table séparée)
 - [ ] **Livrable :** Prompt v1.0 documenté dans `prompts-library.md`

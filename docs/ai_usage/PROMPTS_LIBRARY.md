@@ -17,55 +17,50 @@ Pour chaque prompt, je documente :
 
 ---
 
-## Prompt #1 : Pain Points Clustering
+## Prompt #1 : Analyse Complète (Pain Points + Feature Requests + Sentiment)
 
-**Version :** v1.0 (brouillon)
-**Date :** [À remplir quand tu le crées]
-**Statut :** Draft
-**Feature :** Pain Points Clustering
+**Version :** v1.0
+**Date :** 15 avril 2026
+**Statut :** ✅ Production
+**Feature :** Pain Points Clustering + Feature Request Ranker + Sentiment
+**Fichier :** `app/services/claude_service.rb`
 
 ### Prompt
-Tu es un Product Manager expert en analyse qualitative de feedback utilisateur.
-CONTEXTE :
-J'ai récupéré [X] commentaires YouTube sur une vidéo de démonstration produit.
-TÂCHE :
-Analyse tous ces commentaires et identifie les TOP 5 PAIN POINTS récurrents mentionnés par les utilisateurs.
-Pour chaque pain point, fournis :
 
-Un titre court et descriptif
-Le pourcentage de commentaires concernés (estimation)
-2-3 exemples de verbatims représentatifs
-Un score de sévérité de 1 à 10
+```
+Tu es un expert en analyse de feedback produit. Analyse ces [N] commentaires YouTube
+et retourne UNIQUEMENT un JSON valide avec cette structure exacte :
 
-FORMAT DE SORTIE (JSON strict) :
 {
-"pain_points": [
-{
-"title": "Titre du pain point",
-"percentage": 34,
-"severity": 8,
-"examples": [
-"Verbatim 1",
-"Verbatim 2"
-]
-},
-...
-]
+  "pain_points": [
+    { "title": "...", "description": "...", "count": 0 }
+  ],
+  "feature_requests": [
+    { "title": "...", "description": "...", "votes": 0 }
+  ],
+  "sentiment": {
+    "positive": 0,
+    "neutral": 0,
+    "negative": 0
+  },
+  "summary": "..."
 }
-COMMENTAIRES :
-[Liste des commentaires YouTube ici]
+
+Règles :
+- pain_points : top 5 problèmes récurrents avec leur fréquence estimée
+- feature_requests : top 5 demandes de fonctionnalités
+- sentiment : pourcentages (doivent totaliser 100)
+- summary : résumé exécutif en 2-3 phrases
+
+Commentaires à analyser :
+[liste numérotée des commentaires]
+
+Réponds UNIQUEMENT avec le JSON, sans texte avant ou après.
+```
 
 ### Input Example
-COMMENTAIRES :
 
-"The onboarding is too confusing, spent 30 minutes just to add my first task"
-"Love the UI but where is the mobile app?"
-"Great product but the tutorial needs work"
-"No mobile version is a dealbreaker for me"
-"The interface is beautiful"
-"Onboarding tutorial is not clear at all"
-[... + 494 autres commentaires]
-
+45 commentaires sur une vidéo de review iPhone 17 (en portugais brésilien)
 
 ### Output Example
 
@@ -73,37 +68,37 @@ COMMENTAIRES :
 {
   "pain_points": [
     {
-      "title": "Onboarding complexe",
-      "percentage": 34,
-      "severity": 8,
-      "examples": [
-        "The onboarding is too confusing, spent 30 minutes just to add my first task",
-        "Onboarding tutorial is not clear at all"
-      ]
-    },
-    {
-      "title": "Mobile app manquante",
-      "percentage": 28,
-      "severity": 7,
-      "examples": [
-        "Love the UI but where is the mobile app?",
-        "No mobile version is a dealbreaker for me"
-      ]
+      "title": "Photos/vidéos trop jaunes ou orangées",
+      "description": "Plusieurs utilisateurs se plaignent que les photos ont des tons trop jaunes",
+      "count": 6
     }
-  ]
+  ],
+  "feature_requests": [
+    {
+      "title": "Meilleure autonomie de batterie",
+      "description": "Les utilisateurs demandent une batterie plus performante",
+      "votes": 5
+    }
+  ],
+  "sentiment": { "positive": 42, "neutral": 33, "negative": 25 },
+  "summary": "L'iPhone 17 est bien accueilli pour son rapport qualité-prix..."
 }
 ```
 
 ### Learnings
 
 **✅ Ce qui marche :**
-- [À remplir après tests]
+- Demander UNIQUEMENT du JSON évite le texte parasite autour de la réponse
+- La structure fixe avec `count` et `votes` rend le parsing fiable
+- Claude répond en français même si les commentaires sont en portugais
 
 **❌ Ce qui ne marche pas :**
-- [À remplir après tests]
+- Avec moins de 20 commentaires, les résultats manquent de pertinence
+- Le `count` est une estimation, pas un comptage exact
 
 **🔄 Itérations :**
-- v1.0 → v1.1 : [Changements apportés]
+- v1.0 : prompt initial avec structure JSON complète → fonctionne en production
+- v1.1 à venir : ajouter des verbatims d'exemples pour chaque pain point
 
 ---
 

@@ -34,7 +34,7 @@
 - [x] S'inscrire à YouTube Data API
 - [x] Créer le contrôleur Videos
 - [x] Récupérer les commentaires d'une vidéo
-- [ ] Afficher dans une vue simple
+- [x] Afficher dans une vue simple
 - [ ] **Documenter** : Prompt utilisé + erreurs
 
 #### Jour 5-7 : First Feature (3h)

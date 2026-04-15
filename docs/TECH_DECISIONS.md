@@ -61,47 +61,11 @@ Le temps d'apprentissage supplémentaire est un **investissement**, pas un coût
 
 ---
 
-## Decision 002 : [Template pour prochaine décision]
-
-**Date :** [date]
-**Status :** [🤔 En discussion / ✅ Acceptée / ❌ Rejetée]
-**Contexte :** [Pourquoi cette décision doit être prise]
-
-### Options considérées
-
-#### Option A : [nom]
-**Avantages :**
-- [point 1]
-- [point 2]
-
-**Inconvénients :**
-- [point 1]
-- [point 2]
-
-#### Option B : [nom]
-[...]
-
-### Décision
-
-[Choix] ✅/❌
-
-### Justification
-
-[Pourquoi ce choix est aligné avec les objectifs du projet]
-
-### Trade-offs acceptés
-
-- [Ce qu'on sacrifie]
-
-### Impact sur le projet
-
-- [Conséquences concrètes]
-
 ---
 
 *Ce document sera mis à jour à chaque décision majeure. Chaque décision doit pouvoir être justifiée en entretien.*
 
-# Decision Record #002 : Scope MVP — 3 Features au lieu de 5
+## Decision 002 : Scope MVP — 3 Features au lieu de 5
 
 **Date :** 14 avril 2026
 **Contexte :** Révision du scope après analyse réaliste
@@ -135,3 +99,43 @@ Features coupées : #3 Sentiment Timeline, #4 Competitive Intelligence
 pour me concentrer sur le core value. C'est du PM 101 : livrer
 de la qualité sur un scope réduit plutôt que du superficiel
 sur un scope trop large."
+
+---
+
+## Decision 003 : Rails Setup — Choix Techniques du Projet
+
+**Date :** 14-15 avril 2026
+**Status :** ✅ Acceptée
+**Contexte :** Choix des outils et configuration lors du `rails new`
+
+### Décisions prises
+
+#### PostgreSQL (pas SQLite)
+- SQLite = base de données fichier, pas adaptée à la production
+- PostgreSQL = standard industrie, supporté nativement par Render/Heroku
+- Décision : PostgreSQL dès le départ pour éviter une migration plus tard
+
+#### Import Maps (pas Webpack/Node)
+- Webpack = complexité Node.js, npm, bundler à gérer
+- Import Maps = le navigateur charge le JS directement, zéro build step
+- Pour ce projet (pas de React, pas de TypeScript), Import Maps suffit largement
+
+#### Hotwire (Turbo + Stimulus) au lieu de React
+- React = overkill pour des pages qui se rechargent, courbe d'apprentissage élevée
+- Hotwire = interactivité moderne avec des conventions Rails, moins de JS à écrire
+- Aligné avec la philosophie Rails 8 : "less JavaScript by default"
+
+#### Un seul model `Analysis` au lieu de `Video` + `Comment`
+- Le plan initial prévoyait deux modèles séparés
+- Un seul `Analysis` stockant les commentaires en JSON est plus simple pour le MVP
+- Trade-off accepté : moins flexible si on veut requêter les commentaires individuellement
+
+### Trade-offs acceptés
+
+- Import Maps = pas de npm packages avancés (Chart.js devra être chargé via CDN)
+- Model unique = commentaires stockés en JSON, pas requêtables individuellement en SQL
+
+### Comment je présente ça en entretien
+"J'ai choisi de minimiser la complexité technique pour maximiser la vitesse d'itération.
+Sur un MVP solo, chaque couche de complexité ajoutée est une dette de maintenance.
+J'ai documenté les trade-offs pour pouvoir migrer si le produit évolue."
