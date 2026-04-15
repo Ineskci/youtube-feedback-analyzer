@@ -100,3 +100,38 @@ Le temps d'apprentissage supplémentaire est un **investissement**, pas un coût
 ---
 
 *Ce document sera mis à jour à chaque décision majeure. Chaque décision doit pouvoir être justifiée en entretien.*
+
+# Decision Record #002 : Scope MVP — 3 Features au lieu de 5
+
+**Date :** 14 avril 2026
+**Contexte :** Révision du scope après analyse réaliste
+**Statut :** Decided
+
+## Problème
+Mon Product Brief initial prévoyait 5 features en 30h :
+1. Pain Points Clustering
+2. Feature Request Ranker
+3. Sentiment Timeline
+4. Competitive Intelligence
+5. Executive Summary
+
+Estimation honnête : 40-50h nécessaires, pas 30h.
+
+## Décision
+Réduire à 3 features core :
+1. Pain Points Clustering (7h)
+2. Executive Summary (2h)
+3. Feature Request Ranker (5h)
+
+Features coupées : #3 Sentiment Timeline, #4 Competitive Intelligence
+
+## Raison
+- **Réalisme** : Je suis débutante Rails, je dois bufferiser
+- **Cohérence MVP** : Les 3 features forment un workflow complet
+- **Portfolio impact** : Mieux vaut 3 features solides que 5 à moitié
+
+## Comment je présente ça en entretien
+"J'avais prévu 5 features. J'ai ruthlessly coupé 2 nice-to-haves
+pour me concentrer sur le core value. C'est du PM 101 : livrer
+de la qualité sur un scope réduit plutôt que du superficiel
+sur un scope trop large."
