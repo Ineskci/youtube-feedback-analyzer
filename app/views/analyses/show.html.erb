@@ -38,26 +38,55 @@
 
       <!-- Recommended Actions -->
       <% if ai["recommended_actions"].present? %>
+        <%
+          groups = {
+            "sprint_1"     => { label: "Immediate Priorities — Sprint 1", color: "red" },
+            "sprint_2"     => { label: "Quick Wins — Sprint 2", color: "yellow" },
+            "strategic"    => { label: "Strategic Initiatives", color: "blue" },
+            "deprioritize" => { label: "Deprioritize", color: "gray" }
+          }
+          actions_by_group = ai["recommended_actions"].group_by { |a| a["group"] || "sprint_1" }
+        %>
         <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-          <h2 class="font-semibold text-gray-800 mb-4">Recommended Actions</h2>
-          <ul class="space-y-3">
-            <% ai["recommended_actions"].each_with_index do |action, i| %>
-              <li class="flex gap-4 items-start">
-                <span class="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold
-                  <%= action['priority'] == 'high' ? 'bg-red-100 text-red-700' : action['priority'] == 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600' %>">
-                  <%= i + 1 %>
-                </span>
-                <div>
-                  <p class="font-medium text-gray-800"><%= action["action"] %></p>
-                  <p class="text-sm text-gray-500"><%= action["rationale"] %></p>
-                </div>
-                <span class="ml-auto shrink-0 text-xs px-2 py-1 rounded-full
-                  <%= action['priority'] == 'high' ? 'bg-red-100 text-red-700' : action['priority'] == 'medium' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600' %>">
-                  <%= action["priority"]&.capitalize %>
-                </span>
-              </li>
-            <% end %>
-          </ul>
+          <h2 class="font-semibold text-gray-800 mb-5">Recommended Actions</h2>
+          <% groups.each do |group_key, group_meta| %>
+            <% group_actions = actions_by_group[group_key]; next if group_actions.blank? %>
+            <div class="mb-5">
+              <p class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-3"><%= group_meta[:label] %></p>
+              <ul class="space-y-3">
+                <% group_actions.each_with_index do |action, i| %>
+                  <%
+                    c = case action["priority"]
+                        when "high"   then "red"
+                        when "medium" then "yellow"
+                        else "gray"
+                        end
+                  %>
+                  <li class="border border-gray-100 rounded-lg p-4">
+                    <div class="flex justify-between items-start gap-4 mb-2">
+                      <p class="font-medium text-gray-800"><%= action["action"] %></p>
+                      <span class="shrink-0 text-xs font-semibold px-2 py-1 rounded-full
+                        <%= c == 'red' ? 'bg-red-100 text-red-700' : c == 'yellow' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-500' %>">
+                        <%= action["priority"]&.upcase %>
+                      </span>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-2"><%= action["rationale"] %></p>
+                    <div class="flex flex-wrap gap-3 text-xs text-gray-400">
+                      <% if action["team"].present? %>
+                        <span>👥 <%= action["team"] %></span>
+                      <% end %>
+                      <% if action["timeline"].present? %>
+                        <span>⏱️ <%= action["timeline"] %></span>
+                      <% end %>
+                      <% if action["success_metric"].present? %>
+                        <span>📈 <%= action["success_metric"] %></span>
+                      <% end %>
+                    </div>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
         </div>
       <% end %>
 
@@ -141,36 +170,57 @@
       <!-- Pain Points -->
       <div class="bg-white rounded-xl shadow-md p-6 mb-6">
         <h2 class="font-semibold text-gray-800 mb-4">Top Pain Points</h2>
-        <ul class="space-y-4">
-          <% ai["pain_points"]&.each do |point| %>
-            <li class="border-b border-gray-100 pb-4">
-              <div class="flex justify-between items-start mb-1">
-                <p class="font-medium text-gray-800"><%= point["title"] %></p>
-                <div class="flex items-center gap-2 ml-4 shrink-0">
-                  <% severity = point["severity"].to_i %>
-                  <span class="text-sm" title="Severity <%= severity %>/5">
-                    <% severity.times do %><span class="text-orange-500">🔥</span><% end %>
-                  </span>
-                  <span class="text-sm bg-red-100 text-red-700 px-2 py-1 rounded-full whitespace-nowrap">
-                    <% if point["percentage"].present? %>
-                      <%= point["percentage"] %>% · <%= point["count"] %> mentions
-                    <% else %>
-                      <%= point["count"] %> mentions
-                    <% end %>
+        <div class="space-y-4">
+          <% ai["pain_points"]&.each_with_index do |point, i| %>
+            <%
+              impact = point["business_impact"].to_s.upcase
+              impact_color = impact == "HIGH" ? "red" : impact == "MEDIUM" ? "yellow" : "gray"
+              severity = point["severity"].to_i
+            %>
+            <div class="border border-gray-100 rounded-lg p-4">
+              <!-- Header row -->
+              <div class="flex justify-between items-start gap-4 mb-2">
+                <p class="font-semibold text-gray-900">#<%= i + 1 %> <%= point["title"] %></p>
+                <div class="flex items-center gap-2 shrink-0">
+                  <span class="text-xs font-semibold px-2 py-1 rounded-full
+                    <%= impact_color == 'red' ? 'bg-red-100 text-red-700' : impact_color == 'yellow' ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-500' %>">
+                    <%= impact.present? ? "#{impact} impact" : "impact" %>
                   </span>
                 </div>
               </div>
-              <p class="text-sm text-gray-500 mb-2"><%= point["description"] %></p>
+
+              <!-- Stats row -->
+              <div class="flex items-center gap-4 mb-3 text-sm">
+                <span class="text-gray-500">
+                  📊 <%= point["percentage"] %>% · <%= point["count"] %> mentions
+                </span>
+                <span title="Severity <%= severity %>/10">
+                  <% [*1..[(severity/2.0).ceil, 5].min].each do %><span class="text-orange-400 text-xs">🔥</span><% end %>
+                  <span class="text-xs text-gray-400"><%= severity %>/10</span>
+                </span>
+              </div>
+
+              <!-- Description -->
+              <p class="text-sm text-gray-500 mb-3"><%= point["description"] %></p>
+
+              <!-- Verbatims -->
               <% if point["verbatims"].present? %>
-                <div class="space-y-1">
+                <div class="space-y-1 mb-3">
                   <% point["verbatims"].each do |quote| %>
                     <p class="text-xs text-gray-400 italic border-l-2 border-gray-200 pl-2">"<%= quote %>"</p>
                   <% end %>
                 </div>
               <% end %>
-            </li>
+
+              <!-- Recommended action -->
+              <% if point["recommended_action"].present? %>
+                <div class="bg-gray-50 rounded px-3 py-2 text-xs text-gray-600">
+                  <span class="font-medium text-gray-700">Action →</span> <%= point["recommended_action"] %>
+                </div>
+              <% end %>
+            </div>
           <% end %>
-        </ul>
+        </div>
       </div>
 
       <!-- Feature Requests -->

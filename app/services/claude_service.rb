@@ -74,7 +74,7 @@ class ClaudeService
     comments_text = comments.first(200).map.with_index(1) { |c, i| "#{i}. #{c}" }.join("\n")
 
     <<~PROMPT
-      You are a product feedback analyst. Analyze these #{total} YouTube comments and return ONLY a valid JSON with this exact structure:
+      You are a senior product manager analyzing #{total} YouTube comments. Return ONLY valid JSON with this exact structure:
 
       {
         "pain_points": [
@@ -83,44 +83,57 @@ class ClaudeService
             "description": "...",
             "count": 0,
             "percentage": 0,
-            "severity": 4,
-            "verbatims": ["exact quote from a comment", "another exact quote"]
+            "severity": 8,
+            "business_impact": "HIGH",
+            "verbatims": ["exact quote 1", "exact quote 2"],
+            "recommended_action": "Specific action to fix this"
           }
         ],
         "feature_requests": [
-          { "title": "...", "description": "...", "votes": 0, "percentage": 0, "priority": "Critical", "sentiment": "positive" }
+          {
+            "title": "...",
+            "description": "...",
+            "votes": 0,
+            "percentage": 0,
+            "priority": "Critical",
+            "sentiment": "positive"
+          }
         ],
-        "sentiment": {
-          "positive": 0,
-          "neutral": 0,
-          "negative": 0
-        },
+        "sentiment": { "positive": 0, "neutral": 0, "negative": 0 },
         "recommended_actions": [
-          { "action": "...", "rationale": "...", "priority": "high" }
+          {
+            "action": "...",
+            "rationale": "...",
+            "priority": "high",
+            "group": "sprint_1",
+            "team": "...",
+            "timeline": "2 weeks",
+            "success_metric": "..."
+          }
         ],
         "summary": "..."
       }
 
       Rules:
-      - pain_points: top 5 recurring problems, each with:
-          * count: estimated number of mentions
-          * percentage: count / #{total} * 100, rounded to nearest integer
-          * severity: integer 1-5 (5 = most severe, based on frequency + frustration level)
-          * verbatims: 2 short exact quotes from the comments that illustrate this pain point
-      - feature_requests: top 5 requests, sorted by votes descending, each with:
-          * votes: estimated number of mentions
-          * percentage: votes / #{total} * 100, rounded to nearest integer
-          * priority: "Critical" (many mentions + frustration), "Quick Win" (easy + high demand), or "Nice to Have"
+      - pain_points: top 5 problems, each with:
+          * count: estimated mentions; percentage: count/#{total}*100 (integer)
+          * severity: integer 1-10 (10 = most severe, based on frequency × frustration)
+          * business_impact: "HIGH" (churn/revenue risk), "MEDIUM" (UX degradation), or "LOW"
+          * verbatims: 2 short exact quotes from the comments
+          * recommended_action: one concrete fix action
+      - feature_requests: top 5, sorted by votes desc; percentage: votes/#{total}*100 (integer)
+          * priority: "Critical" / "Quick Win" / "Nice to Have"
           * sentiment: "positive" (enthusiastic) or "negative" (frustrated)
-      - recommended_actions: top 3 actionable next steps for a PM, each with:
-          * action: clear directive (e.g. "Fix file transfer reliability")
-          * rationale: one sentence explaining why (based on data)
-          * priority: "high", "medium", or "low"
-      - sentiment: percentages that must total 100
-      - summary: executive summary in 2-3 sentences
-      - Always respond in English, regardless of the comments language
+      - recommended_actions: top 5-8 PM actions grouped by:
+          * group: "sprint_1" (urgent, <2 weeks), "sprint_2" (quick wins, <1 month), "strategic" (>1 month), or "deprioritize"
+          * team: which team owns this (e.g. "Mobile Engineering", "Marketing", "Hardware")
+          * timeline: specific estimate (e.g. "2 weeks", "1 month", "6 months")
+          * success_metric: one measurable outcome (e.g. "Transfer failure rate <5%")
+      - sentiment: percentages totaling 100
+      - summary: 2-3 sentences, C-level ready
+      - Always respond in English
 
-      Comments to analyze:
+      Comments:
       #{comments_text}
 
       Respond ONLY with the JSON, no text before or after.
