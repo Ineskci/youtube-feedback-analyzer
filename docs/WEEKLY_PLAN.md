@@ -8,9 +8,9 @@
 
 | Semaine | Dates | Objectif | Status |
 |---------|-------|----------|--------|
-| 1 | 14-21 avril | Foundation & Setup | 🔄 En cours |
-| 2 | 22-28 avril | AI Integration | ⏳ À venir |
-| 3 | 29 avril - 5 mai | Polish & Deploy | ⏳ À venir |
+| 1 | 14-21 avril | Foundation & Setup | ✅ Terminée (en avance) |
+| 2 | 22-28 avril | AI Integration | ✅ Terminée (en avance) |
+| 3 | 29 avril - 5 mai | Polish & Deploy | 🔄 En cours |
 
 ---
 
@@ -32,30 +32,30 @@
 
 #### Jour 3-4 : YouTube API Integration (4h)
 - [x] S'inscrire à YouTube Data API
-- [x] Créer le contrôleur Videos
+- [x] Créer le contrôleur Videos (AnalysesController)
 - [x] Récupérer les commentaires d'une vidéo
 - [x] Afficher dans une vue simple
-- [ ] **Documenter** : Prompt utilisé + erreurs
+- [x] **Documenter** : Prompt utilisé + erreurs
 
 #### Jour 5-7 : First Feature (3h)
-- [ ] Créer le modèle Video & Comment
-- [ ] Sauvegarder les commentaires en DB
-- [ ] Afficher stats basiques
-- [ ] **Livrable** : Feature fonctionnelle
+- [x] Créer le modèle Analysis (Video & Comment combinés)
+- [x] Sauvegarder les commentaires en DB
+- [x] Afficher stats basiques + dashboard complet
+- [x] **Livrable** : Feature fonctionnelle ✅
 
 ### Livrables publics attendus
 
-- [ ] Weekly Update #1 publié sur GitHub
+- [x] Weekly Update #1 publié sur GitHub
 - [ ] Post LinkedIn #1 : "Je construis un outil PM en public"
-- [ ] Decision Record : Tech Stack
-- [ ] 3-5 commits avec messages clairs
+- [x] Decision Record : Tech Stack (#001, #002, #003)
+- [x] 3-5 commits avec messages clairs (10+ commits)
 
 ### Métriques de succès
 
 - [x] Rails app tourne en local
 - [x] Au moins 1 vidéo YouTube analysée avec succès
-- [ ] Base de données créée et fonctionnelle
-- [ ] Documentation à jour
+- [x] Base de données créée et fonctionnelle
+- [x] Documentation à jour
 
 ---
 
@@ -68,28 +68,28 @@
 ### Planning détaillé
 
 #### Jour 1-2 : Claude API Setup (3h)
-- [ ] Intégrer Anthropic Ruby SDK
-- [ ] Créer le service AnalyzerService
-- [ ] Tester premier prompt d'analyse
-- [ ] **Documenter** : Évolution des prompts
+- [x] Intégrer Anthropic Ruby SDK
+- [x] Créer le service ClaudeService (AnalyzerService)
+- [x] Tester premier prompt d'analyse
+- [x] **Documenter** : Évolution des prompts
 
 #### Jour 3-5 : Core Features (5h)
-- [ ] Feature 1 : Pain Points Clustering
-- [ ] Feature 2 : Feature Request Ranker
-- [ ] Dashboard avec résultats
-- [ ] **Documenter** : Comment l'IA structure les données
+- [x] Feature 1 : Pain Points Clustering
+- [x] Feature 2 : Feature Request Ranker (+ priority tags + sentiment)
+- [x] Dashboard avec résultats
+- [x] **Documenter** : Comment l'IA structure les données
 
 #### Jour 6-7 : Executive Summary (2h)
-- [ ] Feature 5 : Executive Summary Generator
+- [x] Feature 5 : Executive Summary intégré dans le dashboard
 - [ ] Export en format clean
-- [ ] **Livrable** : Dashboard fonctionnel
+- [x] **Livrable** : Dashboard fonctionnel ✅
 
 ### Livrables publics attendus
 
 - [ ] Weekly Update #2
 - [ ] Post LinkedIn #2 : "Comment j'ai intégré l'IA"
-- [ ] Prompt Library v1.0
-- [ ] Screenshots du dashboard
+- [x] Prompt Library v1.0
+- [x] Screenshots du dashboard
 
 ---
 
@@ -108,7 +108,7 @@
 - [ ] **Documenter** : Décision design
 
 #### Jour 4-5 : Déploiement (3h)
-- [ ] Déployer sur Render.com
+- [ ] Déployer sur Render.com 🔄 En cours
 - [ ] Config variables d'environnement
 - [ ] Tests en production
 - [ ] **Documenter** : Challenges déploiement
