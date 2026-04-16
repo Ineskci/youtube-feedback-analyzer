@@ -20,8 +20,8 @@ class YoutubeService
     }
   end
 
-  # Récupère jusqu'à 500 commentaires pour une vidéo donnée
-  # Retourne un tableau de strings (texte des commentaires)
+  # Récupère jusqu'à 500 commentaires avec leur date
+  # Retourne un tableau de hashes { text:, date: }
   def fetch_comments(video_id)
     comments = []
     next_page_token = nil
@@ -36,7 +36,11 @@ class YoutubeService
       )
 
       response.items.each do |item|
-        comments << item.snippet.top_level_comment.snippet.text_display
+        snippet = item.snippet.top_level_comment.snippet
+        comments << {
+          text: snippet.text_display,
+          date: snippet.published_at&.strftime("%Y-%m-%d")
+        }
         break if comments.size >= MAX_COMMENTS
       end
 

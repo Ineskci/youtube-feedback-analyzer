@@ -20,7 +20,11 @@ class AnalysesController < ApplicationController
     metadata = youtube.fetch_video_metadata(video_id)
     comments = youtube.fetch_comments(video_id)
 
-    ai_result = ClaudeService.new.analyze_comments(comments)
+    claude = ClaudeService.new
+    ai_result = claude.analyze_comments(comments.map { |c| c[:text] || c })
+    timeline = claude.analyze_sentiment_timeline(
+      comments.group_by { |c| c[:date]&.first(7) }.transform_values { |cs| cs.map { |c| c[:text] } }
+    )
 
     @analysis = Analysis.new(
       video_url: params[:analysis][:video_url],
@@ -32,6 +36,7 @@ class AnalysesController < ApplicationController
     )
     @analysis.comments_array = comments
     @analysis.ai_analysis_hash = ai_result
+    @analysis.sentiment_timeline_data = timeline
     @analysis.save!
 
     redirect_to analysis_path(@analysis)
