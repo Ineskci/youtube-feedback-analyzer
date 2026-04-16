@@ -52,8 +52,8 @@
 
 ### Métriques de succès
 
-- [ ] Rails app tourne en local
-- [ ] Au moins 1 vidéo YouTube analysée avec succès
+- [x] Rails app tourne en local
+- [x] Au moins 1 vidéo YouTube analysée avec succès
 - [ ] Base de données créée et fonctionnelle
 - [ ] Documentation à jour
 
