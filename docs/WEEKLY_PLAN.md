@@ -112,16 +112,23 @@
 ### Planning détaillé
 
 #### Jour 1-3 : Sentiment Timeline (4h)
-- [ ] Ajouter Chart.js
-- [ ] Calculer sentiment par période
-- [ ] Graphique interactif
-- [ ] **Documenter** : Décision design
+- [x] Ajouter Chart.js (CDN dans layout) ✅
+- [x] Calculer sentiment par période (ClaudeService#analyze_sentiment_timeline) ✅
+- [x] Graphique interactif Chart.js (ligne verte/grise/rouge) ✅
+- [x] Fix axe X illisible (maxTicksLimit: 12, rotation 45°) ✅
+- [x] **Documenter** : Decision Record #004, #005 ✅
 
 #### Jour 4-5 : Déploiement (3h)
 - [x] Déployer sur Render.com ✅
 - [x] Config variables d'environnement
 - [x] Tests en production
 - [ ] **Documenter** : Challenges déploiement
+
+#### Jour 4-5 : Dashboard Enrichi (3h)
+- [x] Pain Points : % + sévérité 🔥 + verbatims ✅
+- [x] Feature Requests : % en plus des votes ✅
+- [x] Section Recommended Actions (top 3 actions PM) ✅
+- [x] Passage Claude Opus → Haiku (~10x moins cher) ✅
 
 #### Jour 6-7 : Portfolio & Démo (3h)
 - [ ] Vidéo démo 90 secondes

@@ -90,15 +90,61 @@ Réponds UNIQUEMENT avec le JSON, sans texte avant ou après.
 **✅ Ce qui marche :**
 - Demander UNIQUEMENT du JSON évite le texte parasite autour de la réponse
 - La structure fixe avec `count` et `votes` rend le parsing fiable
-- Claude répond en français même si les commentaires sont en portugais
+- Claude répond en anglais même si les commentaires sont dans une autre langue
 
 **❌ Ce qui ne marche pas :**
 - Avec moins de 20 commentaires, les résultats manquent de pertinence
 - Le `count` est une estimation, pas un comptage exact
+- Claude Haiku entoure parfois le JSON de backticks ` ```json ``` ` → résolu avec `.gsub(/\A```json\s*|\s*```\z/, "")`
 
 **🔄 Itérations :**
-- v1.0 : prompt initial avec structure JSON complète → fonctionne en production
-- v1.1 à venir : ajouter des verbatims d'exemples pour chaque pain point
+- v1.0 : prompt initial → fonctionne en production
+- v2.0 (16 avril 2026) : ajout de `percentage`, `severity` (1-5), `verbatims` (2 quotes), et `recommended_actions` — voir Decision 005
+
+---
+
+## Prompt #1 v2.0 : Analyse Enrichie (production)
+
+**Version :** v2.0
+**Date :** 16 avril 2026
+**Statut :** ✅ Production
+**Modèle :** claude-haiku-4-5-20251001 (passage depuis Opus — voir Decision 004)
+
+### Nouveaux champs ajoutés
+
+```json
+{
+  "pain_points": [
+    {
+      "title": "...",
+      "description": "...",
+      "count": 8,
+      "percentage": 34,
+      "severity": 5,
+      "verbatims": [
+        "Can't transfer videos to my phone without crashes",
+        "The app is completely broken since the last update"
+      ]
+    }
+  ],
+  "recommended_actions": [
+    {
+      "action": "Fix file transfer reliability",
+      "rationale": "34% of users report crashes — highest frequency pain point",
+      "priority": "high"
+    }
+  ]
+}
+```
+
+### Pourquoi ces ajouts
+
+| Champ | Avant | Après | Impact |
+|---|---|---|---|
+| `count` seul | "8 mentions" | "34% · 8 mentions" | Plus parlant pour C-level |
+| Sans severity | — | 🔥🔥🔥🔥🔥 | Hiérarchie visuelle immédiate |
+| Sans verbatims | "users complain about X" | Citations exactes | Crédibilité data-driven |
+| Sans actions | Données brutes | "Fix X, Sprint #1" | Dashboard actionnable |
 
 ---
 

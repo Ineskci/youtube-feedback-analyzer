@@ -139,3 +139,73 @@ sur un scope trop large."
 "J'ai choisi de minimiser la complexité technique pour maximiser la vitesse d'itération.
 Sur un MVP solo, chaque couche de complexité ajoutée est une dette de maintenance.
 J'ai documenté les trade-offs pour pouvoir migrer si le produit évolue."
+
+---
+
+## Decision 004 : Passage de Claude Opus à Haiku
+
+**Date :** 16 avril 2026
+**Status :** ✅ Acceptée
+**Contexte :** Optimisation des coûts après mise en production
+
+### Problème
+Le prototype utilisait `claude-opus-4-6` pour toutes les analyses. Coût estimé par analyse : $0.10–0.15. Non viable pour un outil utilisé en démo fréquente.
+
+### Options considérées
+
+| Modèle | Input | Output | Qualité |
+|---|---|---|---|
+| claude-opus-4-6 | $15/MTok | $75/MTok | Meilleure |
+| claude-sonnet-4-6 | $3/MTok | $15/MTok | Très bonne |
+| claude-haiku-4-5-20251001 | $0.80/MTok | $4/MTok | Bonne |
+
+### Décision
+**Haiku pour les deux appels** (analyse principale + timeline)
+
+### Justification
+- Les prompts sont très structurés avec output JSON strict → Haiku suit bien les instructions
+- La qualité des insights reste professionnelle (testée en production sur GoPro HERO5)
+- Réduction de coût ~10x : $0.01–0.02 par analyse au lieu de $0.10–0.15
+- Pour un portfolio PM, la fiabilité > la perfection marginale d'Opus
+
+### Trade-offs acceptés
+- Haiku peut être moins nuancé sur des commentaires très complexes ou ambigus
+- Si la qualité s'avère insuffisante pour certains cas, on peut passer Sonnet sur l'analyse principale uniquement
+
+### Comment je présente ça en entretien
+"J'ai fait un arbitrage coût/qualité explicite. Haiku produit des insights suffisamment bons pour mon cas d'usage, à 10x moins cher. C'est du PM thinking appliqué aux décisions techniques : on optimise pour le 'good enough' quand le perfectionnisme n'apporte pas de valeur supplémentaire."
+
+---
+
+## Decision 005 : Enrichissement du prompt — Verbatims, Sévérité, % et Recommended Actions
+
+**Date :** 16 avril 2026
+**Status :** ✅ Acceptée
+**Contexte :** Feedback critique d'une revue produit (score initial : 6.4/10)
+
+### Problème
+Le dashboard montrait des données mais manquait d'actionnabilité :
+- Pain Points : juste "8 mentions" sans contexte ni preuve
+- Feature Requests : "6 votes" sans poids relatif
+- Aucune recommandation claire pour le PM
+
+### Décision
+Enrichir le prompt `analyze_comments` avec 4 nouveaux champs :
+
+1. **`percentage`** (pain points + feature requests) : `count / total * 100` — plus impactant que les chiffres bruts
+2. **`severity`** (pain points) : score 1–5 basé sur fréquence + niveau de frustration
+3. **`verbatims`** (pain points) : 2 citations exactes de commentaires — prouve que c'est data-driven
+4. **`recommended_actions`** : top 3 actions PM avec rationale et priorité (high/medium/low)
+
+### Justification
+- "34% des users affectés" est plus parlant que "8 mentions" pour un stakeholder C-level
+- Les verbatims transforment le dashboard d'un "nice data viz" en outil crédible
+- Les Recommended Actions répondent à "et maintenant, je fais quoi ?" — c'est la question d'un PM, pas d'un data analyst
+
+### Trade-offs acceptés
+- Prompt plus long → légèrement plus de tokens consommés
+- `max_tokens` augmenté de 2048 à 4096 pour la réponse
+- Claude Haiku peut parfois choisir des verbatims génériques — acceptable pour un MVP
+
+### Comment je présente ça en entretien
+"Suite à une revue produit, j'ai identifié que mon outil manquait d'actionnabilité. J'ai itéré le prompt Claude pour qu'il retourne des verbatims, des pourcentages, et des recommandations concrètes. C'est un exemple de boucle feedback → amélioration produit que j'applique à mon propre outil."

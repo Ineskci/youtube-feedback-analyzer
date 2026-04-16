@@ -13,13 +13,13 @@ class ClaudeService
 
     response = @client.messages(
       parameters: {
-        model: "claude-opus-4-6",
-        max_tokens: 1024,
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 4096,
         messages: [{ role: "user", content: prompt }]
       }
     )
 
-    raw_text = response.dig("content", 0, "text")
+    raw_text = response.dig("content", 0, "text").gsub(/\A```json\s*|\s*```\z/, "").strip
     JSON.parse(raw_text)
   rescue JSON::ParserError
     []
@@ -31,8 +31,8 @@ class ClaudeService
 
     response = @client.messages(
       parameters: {
-        model: "claude-opus-4-6",
-        max_tokens: 2048,
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 4096,
         messages: [{ role: "user", content: prompt }]
       }
     )
@@ -70,32 +70,52 @@ class ClaudeService
   end
 
   def build_prompt(comments)
+    total = comments.size
     comments_text = comments.first(200).map.with_index(1) { |c, i| "#{i}. #{c}" }.join("\n")
 
     <<~PROMPT
-      You are a product feedback analyst. Analyze these #{comments.size} YouTube comments and return ONLY a valid JSON with this exact structure:
+      You are a product feedback analyst. Analyze these #{total} YouTube comments and return ONLY a valid JSON with this exact structure:
 
       {
         "pain_points": [
-          { "title": "...", "description": "...", "count": 0 }
+          {
+            "title": "...",
+            "description": "...",
+            "count": 0,
+            "percentage": 0,
+            "severity": 4,
+            "verbatims": ["exact quote from a comment", "another exact quote"]
+          }
         ],
         "feature_requests": [
-          { "title": "...", "description": "...", "votes": 0, "priority": "Critical", "sentiment": "positive" }
+          { "title": "...", "description": "...", "votes": 0, "percentage": 0, "priority": "Critical", "sentiment": "positive" }
         ],
         "sentiment": {
           "positive": 0,
           "neutral": 0,
           "negative": 0
         },
+        "recommended_actions": [
+          { "action": "...", "rationale": "...", "priority": "high" }
+        ],
         "summary": "..."
       }
 
       Rules:
-      - pain_points: top 5 recurring problems with estimated frequency
-      - feature_requests: top 5 feature requests, sorted by votes descending, each with:
+      - pain_points: top 5 recurring problems, each with:
+          * count: estimated number of mentions
+          * percentage: count / #{total} * 100, rounded to nearest integer
+          * severity: integer 1-5 (5 = most severe, based on frequency + frustration level)
+          * verbatims: 2 short exact quotes from the comments that illustrate this pain point
+      - feature_requests: top 5 requests, sorted by votes descending, each with:
           * votes: estimated number of mentions
-          * priority: "Critical" (many mentions + frustration), "Quick Win" (easy to implement + high demand), or "Nice to Have" (low frequency)
-          * sentiment: "positive" (enthusiastic requests) or "negative" (frustrated requests)
+          * percentage: votes / #{total} * 100, rounded to nearest integer
+          * priority: "Critical" (many mentions + frustration), "Quick Win" (easy + high demand), or "Nice to Have"
+          * sentiment: "positive" (enthusiastic) or "negative" (frustrated)
+      - recommended_actions: top 3 actionable next steps for a PM, each with:
+          * action: clear directive (e.g. "Fix file transfer reliability")
+          * rationale: one sentence explaining why (based on data)
+          * priority: "high", "medium", or "low"
       - sentiment: percentages that must total 100
       - summary: executive summary in 2-3 sentences
       - Always respond in English, regardless of the comments language
@@ -108,9 +128,9 @@ class ClaudeService
   end
 
   def parse_response(text)
-    JSON.parse(text)
+    clean = text.gsub(/\A```json\s*|\s*```\z/, "").strip
+    JSON.parse(clean)
   rescue JSON::ParserError
-    # Si Claude renvoie du texte autour du JSON, on l'extrait
     json_match = text.match(/\{.*\}/m)
     json_match ? JSON.parse(json_match[0]) : {}
   end

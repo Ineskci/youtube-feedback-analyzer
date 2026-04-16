@@ -1,2 +1,14 @@
 #!/usr/bin/env ruby
-exec "./bin/rails", "server", *ARGV
+require "shellwords"
+
+# Run Rails server and Tailwind CSS watcher in parallel
+rails_pid = spawn("./bin/rails server #{ARGV.map(&:shellescape).join(' ')}")
+css_pid = spawn("./bin/rails tailwindcss:watch")
+
+trap("INT") do
+  Process.kill("INT", rails_pid) rescue nil
+  Process.kill("INT", css_pid) rescue nil
+end
+
+Process.wait(rails_pid)
+Process.kill("INT", css_pid) rescue nil
