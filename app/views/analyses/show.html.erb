@@ -7,11 +7,24 @@
 
     <!-- Header -->
     <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-      <h1 class="text-xl font-bold text-gray-900 mb-1">Analysis Results</h1>
-      <p class="text-gray-500 text-sm">
-        <%= @analysis.comments_array.size %> comments analyzed •
-        <a href="<%= @analysis.video_url %>" target="_blank" class="text-red-600 hover:underline">View video</a>
-      </p>
+      <div class="flex gap-4 items-start">
+        <% if @analysis.video_thumbnail.present? %>
+          <img src="<%= @analysis.video_thumbnail %>" alt="Video thumbnail"
+               class="w-32 h-20 object-cover rounded-lg shrink-0">
+        <% end %>
+        <div>
+          <h1 class="text-xl font-bold text-gray-900 mb-1">
+            <%= @analysis.video_title.presence || "Analysis Results" %>
+          </h1>
+          <p class="text-gray-500 text-sm">
+            <% if @analysis.channel_name.present? %>
+              <%= @analysis.channel_name %> •
+            <% end %>
+            <%= @analysis.comments_array.size %> comments analyzed •
+            <a href="<%= @analysis.video_url %>" target="_blank" class="text-red-600 hover:underline">View video</a>
+          </p>
+        </div>
+      </div>
     </div>
 
     <% ai = @analysis.ai_analysis_hash %>

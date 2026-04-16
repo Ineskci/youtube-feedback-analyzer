@@ -10,17 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_15_170359) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_16_194931) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "analyses", force: :cascade do |t|
     t.text "ai_analysis"
+    t.string "channel_name"
     t.text "comments"
     t.datetime "created_at", null: false
     t.string "status"
     t.datetime "updated_at", null: false
     t.string "video_id"
+    t.string "video_thumbnail"
+    t.string "video_title"
     t.string "video_url"
   end
 end

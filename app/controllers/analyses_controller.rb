@@ -17,6 +17,7 @@ class AnalysesController < ApplicationController
     end
 
     youtube = YoutubeService.new
+    metadata = youtube.fetch_video_metadata(video_id)
     comments = youtube.fetch_comments(video_id)
 
     ai_result = ClaudeService.new.analyze_comments(comments)
@@ -24,6 +25,9 @@ class AnalysesController < ApplicationController
     @analysis = Analysis.new(
       video_url: params[:analysis][:video_url],
       video_id: video_id,
+      video_title: metadata[:title],
+      video_thumbnail: metadata[:thumbnail],
+      channel_name: metadata[:channel_name],
       status: "completed"
     )
     @analysis.comments_array = comments

@@ -17,12 +17,21 @@
         <% @analyses.each do |analysis| %>
           <li>
             <%= link_to analysis_path(analysis), class: "block bg-white rounded-xl shadow-sm hover:shadow-md p-5 transition" do %>
-              <div class="flex justify-between items-start">
-                <div>
-                  <p class="font-medium text-gray-900 truncate max-w-md"><%= analysis.video_url %></p>
+              <div class="flex gap-4 items-center">
+                <% if analysis.video_thumbnail.present? %>
+                  <img src="<%= analysis.video_thumbnail %>" alt="thumbnail"
+                       class="w-20 h-14 object-cover rounded shrink-0">
+                <% end %>
+                <div class="flex-1 min-w-0">
+                  <p class="font-medium text-gray-900 truncate">
+                    <%= analysis.video_title.presence || analysis.video_url %>
+                  </p>
                   <p class="text-sm text-gray-400 mt-1">
+                    <% if analysis.channel_name.present? %>
+                      <%= analysis.channel_name %> •
+                    <% end %>
                     <%= analysis.comments_array.size %> comments •
-                    <%= analysis.created_at.strftime("%b %d, %Y at %H:%M") %>
+                    <%= analysis.created_at.strftime("%b %d, %Y") %>
                   </p>
                 </div>
                 <span class="text-sm text-gray-400">→</span>

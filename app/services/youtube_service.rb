@@ -6,6 +6,20 @@ class YoutubeService
     @service.key = ENV["YOUTUBE_API_KEY"]
   end
 
+  # Récupère le titre, thumbnail et nom de la chaîne d'une vidéo
+  # Retourne un hash { title:, thumbnail:, channel_name: }
+  def fetch_video_metadata(video_id)
+    response = @service.list_videos("snippet", id: video_id)
+    video = response.items.first
+    return {} if video.nil?
+
+    {
+      title: video.snippet.title,
+      thumbnail: video.snippet.thumbnails.medium&.url || video.snippet.thumbnails.default&.url,
+      channel_name: video.snippet.channel_title
+    }
+  end
+
   # Récupère jusqu'à 500 commentaires pour une vidéo donnée
   # Retourne un tableau de strings (texte des commentaires)
   def fetch_comments(video_id)
