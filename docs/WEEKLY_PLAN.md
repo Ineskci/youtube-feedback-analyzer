@@ -10,7 +10,7 @@
 |---------|-------|----------|--------|
 | 1 | 14-21 avril | Foundation & Setup | ✅ Terminée (en avance) |
 | 2 | 22-28 avril | AI Integration | ✅ Terminée (en avance) |
-| 3 | 29 avril - 5 mai | Polish & Deploy | 🔄 En cours |
+| 3 | 16-21 avril | Polish & Deploy | 🔄 En cours |
 
 ---
 
@@ -61,7 +61,7 @@
 
 ## 🎯 Semaine 2 : AI Integration
 
-**Dates :** 22 avril - 28 avril 2026
+**Dates :** 15 avril - 16 avril 2026 (terminée en avance)
 **Heures disponibles :** 10h
 **Objectif :** Claude API + Features 1, 2, 5
 
@@ -81,7 +81,10 @@
 
 #### Jour 6-7 : Executive Summary (2h)
 - [x] Feature 5 : Executive Summary intégré dans le dashboard
-- [ ] Export en format clean
+- [x] Gestion d'erreurs (URL invalide, vidéo privée, quota, timeout)
+- [x] Historique des analyses
+- [x] Thumbnail + titre + chaîne affichés dans le dashboard
+- [ ] Export en format clean (reporté semaine 3)
 - [x] **Livrable** : Dashboard fonctionnel ✅
 
 ### Livrables publics attendus
@@ -90,6 +93,13 @@
 - [ ] Post LinkedIn #2 : "Comment j'ai intégré l'IA"
 - [x] Prompt Library v1.0
 - [x] Screenshots du dashboard
+
+### Métriques de succès
+
+- [x] Claude API répond en JSON structuré
+- [x] Pain Points + Feature Requests + Sentiment affichés
+- [x] App déployée en production sur Render ✅
+- [x] URL publique fonctionnelle
 
 ---
 
@@ -108,9 +118,9 @@
 - [ ] **Documenter** : Décision design
 
 #### Jour 4-5 : Déploiement (3h)
-- [ ] Déployer sur Render.com 🔄 En cours
-- [ ] Config variables d'environnement
-- [ ] Tests en production
+- [x] Déployer sur Render.com ✅
+- [x] Config variables d'environnement
+- [x] Tests en production
 - [ ] **Documenter** : Challenges déploiement
 
 #### Jour 6-7 : Portfolio & Démo (3h)
