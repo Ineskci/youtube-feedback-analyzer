@@ -88,51 +88,55 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
+      function bindLoadingOverlay() {
         var form = document.getElementById("analysis-form");
-        if (!form) return;
+        if (!form || form.dataset.overlayBound) return;
+        form.dataset.overlayBound = "true";
+
         form.addEventListener("submit", function() {
+          var overlay = document.getElementById("loading-overlay");
+          var progressBar = document.getElementById("progress-bar");
+          var steps = document.querySelectorAll(".step-item");
+          var emojis = ["🔍", "🧠", "✨", "📊"];
+          var emojiEl = document.getElementById("loading-emoji");
 
-        const overlay = document.getElementById("loading-overlay");
-        const progressBar = document.getElementById("progress-bar");
-        const steps = document.querySelectorAll(".step-item");
-        const emojis = ["🔍", "🧠", "✨", "📊"];
-        const emojiEl = document.getElementById("loading-emoji");
+          overlay.classList.remove("hidden");
+          var current = 0;
 
-        overlay.classList.remove("hidden");
-        let current = 0;
-
-        function activateStep(i) {
-          steps.forEach((s, idx) => {
-            const dot = s.querySelector(".step-dot");
-            if (idx < i) {
-              s.style.opacity = "1";
-              dot.textContent = "✓";
-              dot.style.backgroundColor = "hsl(350,75%,55%)";
-              dot.style.color = "white";
-              dot.style.borderColor = "hsl(350,75%,55%)";
-            } else if (idx === i) {
-              s.style.opacity = "1";
-            } else {
-              s.style.opacity = "0.4";
-            }
-          });
-          progressBar.style.width = ((i + 1) / steps.length * 100) + "%";
-          if (emojiEl && emojis[i]) emojiEl.textContent = emojis[i];
-        }
-
-        activateStep(0);
-        const interval = setInterval(function() {
-          current++;
-          if (current < steps.length) {
-            activateStep(current);
-          } else {
-            clearInterval(interval);
+          function activateStep(i) {
+            steps.forEach(function(s, idx) {
+              var dot = s.querySelector(".step-dot");
+              if (idx < i) {
+                s.style.opacity = "1";
+                dot.textContent = "✓";
+                dot.style.backgroundColor = "hsl(350,75%,55%)";
+                dot.style.color = "white";
+                dot.style.borderColor = "hsl(350,75%,55%)";
+              } else if (idx === i) {
+                s.style.opacity = "1";
+              } else {
+                s.style.opacity = "0.4";
+              }
+            });
+            progressBar.style.width = ((i + 1) / steps.length * 100) + "%";
+            if (emojiEl && emojis[i]) emojiEl.textContent = emojis[i];
           }
-        }, 8000);
+
+          activateStep(0);
+          var interval = setInterval(function() {
+            current++;
+            if (current < steps.length) {
+              activateStep(current);
+            } else {
+              clearInterval(interval);
+            }
+          }, 8000);
         });
-      });
-</script>
+      }
+
+      document.addEventListener("turbo:load", bindLoadingOverlay);
+      document.addEventListener("DOMContentLoaded", bindLoadingOverlay);
+    </script>
 
     <!-- Fix 2: text-gray-600 + text-sm pour contraste WCAG AA -->
     <div class="mt-8 flex items-center gap-4 text-sm font-semibold tracking-widest" style="color: hsl(240,20%,40%);">
