@@ -129,7 +129,7 @@ class ClaudeService
           * team: which team owns this (e.g. "Mobile Engineering", "Marketing", "Hardware")
           * timeline: specific estimate (e.g. "2 weeks", "1 month", "6 months")
           * success_metric: one measurable outcome (e.g. "Transfer failure rate <5%")
-      - sentiment: percentages totaling 100
+      - sentiment: EXACTLY 3 integer values that MUST sum to 100. Example: positive=42, neutral=35, negative=23 → total=100. Never exceed 100.
       - summary: 2-3 sentences, C-level ready
       - Always respond in English
 
@@ -142,9 +142,26 @@ class ClaudeService
 
   def parse_response(text)
     clean = text.gsub(/\A```json\s*|\s*```\z/, "").strip
-    JSON.parse(clean)
+    result = JSON.parse(clean)
+    normalize_sentiment!(result)
+    result
   rescue JSON::ParserError
     json_match = text.match(/\{.*\}/m)
-    json_match ? JSON.parse(json_match[0]) : {}
+    parsed = json_match ? JSON.parse(json_match[0]) : {}
+    normalize_sentiment!(parsed)
+    parsed
+  end
+
+  def normalize_sentiment!(result)
+    s = result["sentiment"]
+    return unless s.is_a?(Hash)
+    pos = s["positive"].to_i
+    neu = s["neutral"].to_i
+    neg = s["negative"].to_i
+    total = pos + neu + neg
+    return if total == 0
+    s["positive"] = (pos * 100.0 / total).round
+    s["neutral"]  = (neu * 100.0 / total).round
+    s["negative"] = 100 - s["positive"] - s["neutral"]
   end
 end
