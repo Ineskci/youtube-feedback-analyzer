@@ -9,14 +9,28 @@
     --background: 12 60% 95%;
     --foreground: 240 35% 25%;
     --card: 0 0% 100%;
+    --card-foreground: 240 35% 25%;
     --muted: 12 40% 90%;
     --muted-foreground: 240 20% 45%;
     --border: 12 40% 88%;
+    --input: 12 40% 88%;
+    --ring: 8 85% 62%;
+    --radius: 1.25rem;
+
     --coral: 8 85% 62%;
     --coral-deep: 350 75% 55%;
     --lavender: 230 70% 65%;
-    --sky-blob: 215 60% 78%;
-    --peach-blob: 12 70% 75%;
+    --sky-blob: 215 70% 78%;
+    --peach-blob: 12 75% 75%;
+
+    --severity-high: 350 75% 55%;
+    --severity-medium: 8 85% 62%;
+    --severity-low: 35 85% 65%;
+    --surface-quote: 12 50% 92%;
+  }
+
+  * {
+    border-color: hsl(var(--border));
   }
 
   body {
@@ -34,30 +48,32 @@
 }
 
 @layer utilities {
-  .bg-blush    { background-color: hsl(var(--background)); }
-  .bg-card-white { background-color: hsl(var(--card)); }
-  .bg-muted-soft { background-color: hsl(var(--muted)); }
-  .text-coral  { color: hsl(var(--coral)); }
-  .text-coral-deep { color: hsl(var(--coral-deep)); }
-  .text-lavender { color: hsl(var(--lavender)); }
-  .text-muted-soft { color: hsl(var(--muted-foreground)); }
-  .border-soft { border-color: hsl(var(--border)); }
-  .bg-coral    { background-color: hsl(var(--coral)); }
-  .bg-coral-deep { background-color: hsl(var(--coral-deep)); }
-  .bg-lavender { background-color: hsl(var(--lavender)); }
-
-  .blob {
-    position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-    opacity: 0.75;
-  }
+  .text-balance { text-wrap: balance; }
 
   .text-gradient-coral {
-    background: linear-gradient(135deg, hsl(var(--coral)) 0%, hsl(var(--coral-deep)) 50%, hsl(var(--lavender)) 100%);
+    background: linear-gradient(90deg, hsl(var(--coral)) 0%, hsl(var(--coral-deep)) 50%, hsl(var(--lavender)) 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
+  }
+
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(2px);
+    opacity: 0.85;
+    pointer-events: none;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(hsl(var(--coral) / 0.15) 1px, transparent 1px);
+    background-size: 3px 3px;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    opacity: 0.4;
   }
 }
