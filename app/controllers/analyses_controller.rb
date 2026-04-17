@@ -12,7 +12,7 @@ class AnalysesController < ApplicationController
 
     if video_id.nil?
       @analysis = Analysis.new(video_url: params[:analysis][:video_url])
-      @analysis.errors.add(:video_url, "Invalid YouTube URL. Please use a URL like https://www.youtube.com/watch?v=...")
+      @analysis.errors.add(:video_url, "That doesn't look like a YouTube URL. Try: youtube.com/watch?v=...")
       return render :new, status: :unprocessable_entity
     end
 
@@ -38,15 +38,15 @@ class AnalysesController < ApplicationController
     redirect_to analysis_path(@analysis)
 
   rescue YoutubeService::VideoNotFoundError
-    render_error "Video not found. It may have been deleted or the URL is incorrect."
+    render_error "We couldn't find this video. Check the URL or try a different one."
   rescue YoutubeService::CommentsDisabledError
-    render_error "Comments are disabled on this video."
+    render_error "Comments are disabled on this video. Try a different one."
   rescue YoutubeService::QuotaExceededError
-    render_error "YouTube API quota exceeded. Please try again tomorrow."
+    render_error "We've hit YouTube's daily limit. Come back tomorrow to run more analyses."
   rescue YoutubeService::TimeoutError
-    render_error "The request timed out. Please try again."
-  rescue Anthropic::Error, Faraday::Error => e
-    render_error "AI analysis failed. Please try again. (#{e.class})"
+    render_error "This is taking longer than expected. Please try again in a moment."
+  rescue Anthropic::Error, Faraday::Error
+    render_error "The analysis didn't complete. Please try again — it usually works on the second attempt."
   end
 
   def show

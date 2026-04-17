@@ -20,7 +20,7 @@
     <% if @analyses.empty? %>
       <div class="bg-white rounded-3xl p-12 text-center shadow-sm border border-soft">
         <p class="text-4xl mb-4">📭</p>
-        <p class="text-muted-soft mb-4">No analyses yet.</p>
+        <p class="text-muted-soft mb-4">Nothing here yet — your first analysis is one URL away.</p>
         <%= link_to "Analyze your first video →", new_analysis_path, class: "text-coral-deep font-medium hover:opacity-80" %>
       </div>
     <% else %>
