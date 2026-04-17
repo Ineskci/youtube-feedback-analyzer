@@ -9,9 +9,7 @@
   <!-- Header -->
   <header class="relative z-10 max-w-4xl mx-auto px-6 pt-6 pb-4 flex items-center justify-between">
     <div class="flex items-center gap-4">
-      <%= link_to analyses_path, class: "text-sm font-medium text-coral-deep hover:opacity-80 flex items-center gap-1" do %>
-        ← New analysis
-      <% end %>
+      <%= link_to "← New analysis", new_analysis_path, class: "text-sm font-medium text-coral-deep hover:opacity-80" %>
       <%= link_to "History", analyses_path, class: "text-sm text-muted-soft hover:text-coral-deep" %>
     </div>
   </header>

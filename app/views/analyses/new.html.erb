@@ -27,7 +27,7 @@
       Paste a YouTube URL and turn raw comments into the pain points your users actually care about.
     </p>
 
-    <%= form_with model: @analysis, class: "w-full max-w-xl", data: { action: "submit->loading#start" } do |f| %>
+    <%= form_with model: @analysis, class: "w-full max-w-xl", id: "analysis-form" do |f| %>
       <% if @analysis.errors.any? %>
         <div class="rounded-2xl p-3 mb-4 text-sm text-red-700 bg-red-50">
           <%= @analysis.errors.full_messages.first %>
@@ -78,47 +78,46 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const form = document.querySelector("form");
+      document.addEventListener("turbo:submit-start", function(e) {
+        if (e.target.id !== "analysis-form") return;
+
         const overlay = document.getElementById("loading-overlay");
         const progressBar = document.getElementById("progress-bar");
         const steps = document.querySelectorAll(".step-item");
         const emojis = ["🔍", "🧠", "✨", "📊"];
         const emojiEl = document.getElementById("loading-emoji");
 
-        form.addEventListener("submit", function() {
-          overlay.classList.remove("hidden");
-          let current = 0;
+        overlay.classList.remove("hidden");
+        let current = 0;
 
-          function activateStep(i) {
-            steps.forEach((s, idx) => {
-              const dot = s.querySelector(".step-dot");
-              if (idx < i) {
-                s.style.opacity = "1";
-                dot.textContent = "✓";
-                dot.style.backgroundColor = "hsl(350,75%,55%)";
-                dot.style.color = "white";
-                dot.style.borderColor = "hsl(350,75%,55%)";
-              } else if (idx === i) {
-                s.style.opacity = "1";
-              } else {
-                s.style.opacity = "0.4";
-              }
-            });
-            progressBar.style.width = ((i + 1) / steps.length * 100) + "%";
-            if (emojiEl && emojis[i]) emojiEl.textContent = emojis[i];
-          }
-
-          activateStep(0);
-          const interval = setInterval(function() {
-            current++;
-            if (current < steps.length) {
-              activateStep(current);
+        function activateStep(i) {
+          steps.forEach((s, idx) => {
+            const dot = s.querySelector(".step-dot");
+            if (idx < i) {
+              s.style.opacity = "1";
+              dot.textContent = "✓";
+              dot.style.backgroundColor = "hsl(350,75%,55%)";
+              dot.style.color = "white";
+              dot.style.borderColor = "hsl(350,75%,55%)";
+            } else if (idx === i) {
+              s.style.opacity = "1";
             } else {
-              clearInterval(interval);
+              s.style.opacity = "0.4";
             }
-          }, 8000);
-        });
+          });
+          progressBar.style.width = ((i + 1) / steps.length * 100) + "%";
+          if (emojiEl && emojis[i]) emojiEl.textContent = emojis[i];
+        }
+
+        activateStep(0);
+        const interval = setInterval(function() {
+          current++;
+          if (current < steps.length) {
+            activateStep(current);
+          } else {
+            clearInterval(interval);
+          }
+        }, 8000);
       });
     </script>
 
