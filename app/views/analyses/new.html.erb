@@ -88,8 +88,10 @@
     </div>
 
     <script>
-      document.addEventListener("turbo:submit-start", function(e) {
-        if (e.target.id !== "analysis-form") return;
+      document.addEventListener("DOMContentLoaded", function() {
+        var form = document.getElementById("analysis-form");
+        if (!form) return;
+        form.addEventListener("submit", function() {
 
         const overlay = document.getElementById("loading-overlay");
         const progressBar = document.getElementById("progress-bar");
@@ -128,8 +130,9 @@
             clearInterval(interval);
           }
         }, 8000);
+        });
       });
-    </script>
+</script>
 
     <!-- Fix 2: text-gray-600 + text-sm pour contraste WCAG AA -->
     <div class="mt-8 flex items-center gap-4 text-sm font-semibold tracking-widest" style="color: hsl(240,20%,40%);">
