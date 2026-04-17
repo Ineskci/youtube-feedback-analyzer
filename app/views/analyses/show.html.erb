@@ -90,63 +90,6 @@
         </div>
       <% end %>
 
-      <!-- Sentiment Timeline -->
-      <% timeline = @analysis.sentiment_timeline_data %>
-      <% if timeline.size > 1 %>
-        <div class="bg-white rounded-xl shadow-md p-6 mb-6">
-          <h2 class="font-semibold text-gray-800 mb-4">Sentiment Timeline</h2>
-          <canvas id="sentimentChart" height="100"></canvas>
-          <script>
-            const ctx = document.getElementById('sentimentChart').getContext('2d');
-            new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: <%= raw timeline.map { |d| d["month"] }.to_json %>,
-                datasets: [
-                  {
-                    label: 'Positive',
-                    data: <%= raw timeline.map { |d| d["positive"] }.to_json %>,
-                    borderColor: '#16a34a',
-                    backgroundColor: 'rgba(22, 163, 74, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                  },
-                  {
-                    label: 'Neutral',
-                    data: <%= raw timeline.map { |d| d["neutral"] }.to_json %>,
-                    borderColor: '#9ca3af',
-                    backgroundColor: 'rgba(156, 163, 175, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                  },
-                  {
-                    label: 'Negative',
-                    data: <%= raw timeline.map { |d| d["negative"] }.to_json %>,
-                    borderColor: '#dc2626',
-                    backgroundColor: 'rgba(220, 38, 38, 0.1)',
-                    fill: true,
-                    tension: 0.4
-                  }
-                ]
-              },
-              options: {
-                responsive: true,
-                scales: {
-                  x: {
-                    ticks: {
-                      maxRotation: 45,
-                      autoSkip: true,
-                      maxTicksLimit: 12
-                    }
-                  },
-                  y: { min: 0, max: 100, ticks: { callback: v => v + '%' } }
-                },
-                plugins: { legend: { position: 'bottom' } }
-              }
-            });
-          </script>
-        </div>
-      <% end %>
 
       <!-- Sentiment -->
       <div class="bg-white rounded-xl shadow-md p-6 mb-6">
