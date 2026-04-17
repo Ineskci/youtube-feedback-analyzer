@@ -1,46 +1,62 @@
-<div class="min-h-screen bg-gray-50 p-8">
-  <div class="max-w-3xl mx-auto">
+<div class="min-h-screen bg-blush relative overflow-hidden">
 
-    <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold text-gray-900">Analysis History</h1>
-      <%= link_to "+ New analysis", new_analysis_path,
-          class: "bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2 rounded-lg" %>
-    </div>
+  <!-- Blobs -->
+  <div class="blob" style="background-color: hsl(215,60%,78%); width:200px; height:200px; top:-60px; left:-60px;"></div>
+  <div class="blob" style="background-color: hsl(12,70%,75%); width:220px; height:220px; top:-70px; right:-70px;"></div>
+  <div class="blob" style="background-color: hsl(12,70%,75%); width:200px; height:200px; bottom:-70px; left:-70px;"></div>
+  <div class="blob" style="background-color: hsl(215,60%,78%); width:200px; height:200px; bottom:-60px; right:-60px;"></div>
+
+  <!-- Header -->
+  <header class="relative z-10 max-w-4xl mx-auto px-6 pt-6 pb-4 flex items-center justify-between">
+    <span class="text-lg font-semibold text-coral-deep" style="font-family: 'DM Serif Display', serif;">YT · Feedback</span>
+    <%= link_to "+ New analysis", new_analysis_path,
+        class: "px-5 py-2 rounded-full text-white text-sm font-semibold bg-coral-deep hover:opacity-90 transition-opacity" %>
+  </header>
+
+  <main class="relative z-10 max-w-4xl mx-auto px-6 pb-16">
+
+    <h1 class="text-3xl mb-8" style="color:hsl(240,35%,25%)">Analysis History</h1>
 
     <% if @analyses.empty? %>
-      <div class="bg-white rounded-xl shadow-md p-8 text-center text-gray-400">
-        No analyses yet.
-        <%= link_to "Analyze a video", new_analysis_path, class: "text-red-600 hover:underline" %>
+      <div class="bg-white rounded-3xl p-12 text-center shadow-sm border border-soft">
+        <p class="text-4xl mb-4">📭</p>
+        <p class="text-muted-soft mb-4">No analyses yet.</p>
+        <%= link_to "Analyze your first video →", new_analysis_path, class: "text-coral-deep font-medium hover:opacity-80" %>
       </div>
     <% else %>
-      <ul class="space-y-3">
+      <div class="space-y-3">
         <% @analyses.each do |analysis| %>
-          <li>
-            <%= link_to analysis_path(analysis), class: "block bg-white rounded-xl shadow-sm hover:shadow-md p-5 transition" do %>
-              <div class="flex gap-4 items-center">
-                <% if analysis.video_thumbnail.present? %>
-                  <img src="<%= analysis.video_thumbnail %>" alt="thumbnail"
-                       class="w-20 h-14 object-cover rounded shrink-0">
-                <% end %>
-                <div class="flex-1 min-w-0">
-                  <p class="font-medium text-gray-900 truncate">
-                    <%= analysis.video_title.presence || analysis.video_url %>
-                  </p>
-                  <p class="text-sm text-gray-400 mt-1">
-                    <% if analysis.channel_name.present? %>
-                      <%= analysis.channel_name %> •
-                    <% end %>
-                    <%= analysis.comments_array.size %> comments •
-                    <%= analysis.created_at.strftime("%b %d, %Y") %>
-                  </p>
-                </div>
-                <span class="text-sm text-gray-400">→</span>
+          <%= link_to analysis_path(analysis), class: "block bg-white rounded-3xl shadow-sm border border-soft p-5 hover:shadow-md transition-shadow" do %>
+            <div class="flex gap-4 items-center">
+              <% if analysis.video_thumbnail.present? %>
+                <img src="<%= analysis.video_thumbnail %>" alt="thumbnail"
+                     class="w-20 h-14 object-cover rounded-2xl shrink-0">
+              <% else %>
+                <div class="w-20 h-14 rounded-2xl shrink-0 flex items-center justify-center text-2xl" style="background-color:hsl(12,40%,90%)">🎬</div>
+              <% end %>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold truncate mb-1" style="color:hsl(240,35%,25%); font-family:'Outfit',sans-serif">
+                  <%= analysis.video_title.presence || analysis.video_url %>
+                </p>
+                <p class="text-sm text-muted-soft">
+                  <% if analysis.channel_name.present? %>
+                    <%= analysis.channel_name %> ·
+                  <% end %>
+                  <%= analysis.comments_array.size %> comments ·
+                  <%= analysis.created_at.strftime("%b %d, %Y") %>
+                </p>
               </div>
-            <% end %>
-          </li>
+              <span class="text-coral-deep text-lg shrink-0">→</span>
+            </div>
+          <% end %>
         <% end %>
-      </ul>
+      </div>
     <% end %>
 
-  </div>
+  </main>
+
+  <p class="relative z-10 text-right px-8 pb-5 text-xs font-semibold tracking-widest text-muted-soft">
+    BY INES KACI · PRODUCT MANAGER
+  </p>
+
 </div>
