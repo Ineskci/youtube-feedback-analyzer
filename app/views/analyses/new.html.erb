@@ -1,10 +1,11 @@
-<div class="min-h-screen relative overflow-hidden flex flex-col bg-blush">
+<!-- Fix 1: overflow-x hidden on wrapper, overflow-y auto — blobs can extend beyond edges -->
+<div class="min-h-screen relative flex flex-col bg-blush" style="overflow-x: hidden; overflow-y: auto;">
 
-  <!-- Blobs -->
-  <div class="blob" style="background-color: hsl(215,60%,78%); width:220px; height:220px; top:-60px; left:-60px;"></div>
-  <div class="blob" style="background-color: hsl(12,70%,75%); width:240px; height:240px; top:-80px; right:-80px;"></div>
-  <div class="blob" style="background-color: hsl(12,70%,75%); width:240px; height:240px; bottom:-80px; left:-80px;"></div>
-  <div class="blob" style="background-color: hsl(215,60%,78%); width:220px; height:220px; bottom:-60px; right:-60px;"></div>
+  <!-- Blobs — z-index 0, behind all content (z-10) -->
+  <div class="blob" style="background-color: hsl(215,60%,78%); width:240px; height:240px; top:-70px; left:-70px; z-index:0;"></div>
+  <div class="blob" style="background-color: hsl(12,70%,75%); width:260px; height:260px; top:-90px; right:-90px; z-index:0;"></div>
+  <div class="blob" style="background-color: hsl(12,70%,75%); width:260px; height:260px; bottom:-90px; left:-90px; z-index:0;"></div>
+  <div class="blob" style="background-color: hsl(215,60%,78%); width:240px; height:240px; bottom:-70px; right:-70px; z-index:0;"></div>
 
   <!-- Navbar -->
   <nav class="relative z-10 flex justify-between items-center px-8 py-5">
@@ -15,7 +16,15 @@
   <!-- Main content -->
   <div class="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-8">
 
-    <h1 class="mb-3 leading-tight text-gradient-coral" style="font-size: clamp(2.4rem, 5vw, 3.8rem);">
+    <!-- Fix 4: Single unified gradient across the full title -->
+    <h1 class="mb-3 leading-tight" style="
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      background: linear-gradient(90deg, hsl(8,85%,58%) 0%, hsl(340,75%,58%) 50%, hsl(250,65%,60%) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    ">
       YouTube Feedback<br>Analyzer
     </h1>
 
@@ -27,20 +36,23 @@
       Paste a YouTube URL and turn raw comments into the pain points your users actually care about.
     </p>
 
-    <%= form_with model: @analysis, class: "w-full max-w-xl", id: "analysis-form" do |f| %>
+    <%= form_with model: @analysis, class: "w-full max-w-2xl", id: "analysis-form" do |f| %>
       <% if @analysis.errors.any? %>
         <div class="rounded-2xl p-3 mb-4 text-sm text-red-700 bg-red-50">
           <%= @analysis.errors.full_messages.first %>
         </div>
       <% end %>
 
+      <!-- Fix 3: Input taller + wider, button matching height -->
       <div class="flex gap-3 items-center">
         <%= f.text_field :video_url,
-            placeholder: "https://youtube.com/watch?v=...",
-            class: "flex-1 px-5 py-3 rounded-full shadow-sm text-gray-700 focus:outline-none focus:ring-2 border-0",
-            style: "background: white;" %>
+            placeholder: "Paste your product launch video URL…",
+            class: "flex-1 px-6 rounded-full shadow-sm text-gray-700 text-base focus:outline-none focus:ring-2 border-0",
+            style: "background: white; height: 60px;" %>
         <%= f.submit "Analyze",
-            class: "px-7 py-3 rounded-full text-white font-semibold cursor-pointer hover:opacity-90 transition-opacity shrink-0 bg-coral-deep" %>
+            class: "px-8 rounded-full text-white font-semibold cursor-pointer hover:opacity-90 transition-opacity shrink-0 bg-coral-deep",
+            style: "height: 60px;",
+            data: { turbo_submits_with: "Analyzing…" } %>
       </div>
     <% end %>
 
@@ -53,15 +65,13 @@
           <p class="text-sm text-muted-soft">Hang tight — your report is on its way.</p>
         </div>
 
-        <!-- Progress bar -->
         <div class="w-full h-2 rounded-full overflow-hidden" style="background-color:hsl(12,40%,88%)">
           <div id="progress-bar" class="h-full rounded-full transition-all duration-700" style="width:0%; background-color:hsl(350,75%,55%)"></div>
         </div>
 
-        <!-- Steps -->
         <div class="space-y-3 text-left" id="steps-list">
           <% [
-            "Fetching comments from YouTube…",
+            "Retrieving comments from YouTube…",
             "Analyzing sentiment patterns…",
             "Clustering pain points with AI…",
             "Generating insights report…"
@@ -121,7 +131,8 @@
       });
     </script>
 
-    <div class="mt-8 flex items-center gap-4 text-xs font-semibold tracking-widest text-muted-soft">
+    <!-- Fix 2: text-gray-600 + text-sm pour contraste WCAG AA -->
+    <div class="mt-8 flex items-center gap-4 text-sm font-semibold tracking-widest" style="color: hsl(240,20%,40%);">
       <span>500+ COMMENTS ANALYZED</span>
       <span>·</span>
       <span>PAIN POINTS & FEATURES</span>
