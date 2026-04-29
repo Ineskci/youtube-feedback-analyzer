@@ -43,7 +43,7 @@ gem "thruster", require: false
 gem "image_processing", "~> 1.2"
 
 # Claude AI API — pour analyser les commentaires avec l'IA
-gem "anthropic", "~> 0.3.0"
+gem "anthropic", "~> 1.36.0"
 
 # YouTube Data API v3 — pour récupérer les commentaires d'une vidéo
 gem "google-apis-youtube_v3"
