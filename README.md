@@ -1,7 +1,7 @@
 ![Header](header.png)
 # 🎯 YouTube Feedback Analyzer
 
-> Transforme 500 commentaires YouTube en insights actionnables en 2 minutes avec l'IA
+> Turns 500 YouTube comments into actionable insights in 2 minutes with AI
 
 [![Ruby](https://img.shields.io/badge/Ruby-3.2+-red.svg)](https://www.ruby-lang.org/)
 [![Rails](https://img.shields.io/badge/Rails-8.0+-red.svg)](https://rubyonrails.org/)
@@ -9,71 +9,71 @@
 
 ---
 
-## 📊 Le Problème
+## 📊 The Problem
 
-En tant que Product Manager, analyser le feedback utilisateur sur YouTube est **chronophage** :
-- 500+ commentaires par vidéo
-- 5-10 heures de lecture manuelle
-- Risque de manquer des insights critiques
+As a Product Manager, analyzing user feedback on YouTube is **time-consuming**:
+- 500+ comments per video
+- 5–10 hours of manual reading
+- Risk of missing critical insights
 
-## 💡 La Solution
+## 💡 The Solution
 
-Un dashboard IA qui analyse automatiquement les commentaires YouTube et génère :
+An AI dashboard that automatically analyzes YouTube comments and generates:
 
-✅ **Pain Points Clustering** — Les problèmes récurrents avec leur fréquence
-✅ **Feature Request Ranker** — Les demandes priorisées par impact
-✅ **Sentiment Timeline** — L'évolution du sentiment dans le temps
-✅ **Competitive Intelligence** — Comparaison avec la concurrence
-✅ **Executive Summary** — Rapport synthétique pour stakeholders
-
----
-
-## 🛠️ Stack Technique
-
-- **Backend** : Ruby on Rails 8
-- **Database** : PostgreSQL
-- **AI** : Claude API (Anthropic)
-- **APIs** : YouTube Data API v3
-- **Frontend** : Hotwire (Turbo + Stimulus) + Tailwind CSS
-- **Charts** : Chart.js
-- **Deploy** : Render.com
+✅ **Pain Points Clustering** — Recurring issues with their frequency and severity  
+✅ **Recommended Actions** — Prioritized sprint actions derived from user feedback  
+✅ **Sentiment Analysis** — Positive / Neutral / Negative breakdown per analysis  
+✅ **Comment Filters** — Browse comments by sentiment directly in the dashboard  
+✅ **Executive Summary** — Concise report for stakeholders  
 
 ---
 
-## 🚀 Status du Projet
+## 🛠️ Tech Stack
 
-**⏳ En développement — Semaine 1/3**
+- **Backend**: Ruby on Rails 8
+- **Database**: PostgreSQL
+- **AI**: Claude API (Anthropic)
+- **APIs**: YouTube Data API v3
+- **Frontend**: Hotwire (Turbo + Stimulus) + Tailwind CSS
+- **Charts**: Chart.js
+- **Deploy**: Render.com
 
-- [x] Setup repo & structure
-- [ ] Rails app configuration
-- [ ] YouTube API integration
-- [ ] Claude AI integration
-- [ ] Feature 1 : Pain Points Clustering
-- [ ] Feature 2 : Feature Request Ranker
-- [ ] Feature 3 : Sentiment Timeline
-- [ ] Feature 4 : Competitive Intelligence
-- [ ] Feature 5 : Executive Summary
-- [ ] Deploy en production
+---
+
+## 🚀 Project Status
+
+**✅ Shipped — Core features live in production**
+
+- [x] Repo setup & project structure
+- [x] Rails app configuration
+- [x] YouTube API integration (comments + video metadata)
+- [x] Claude AI integration
+- [x] Pain Points Clustering with severity scoring
+- [x] Recommended Actions grouped by sprint
+- [x] Sentiment analysis with percentage breakdown
+- [x] Comment filters by sentiment
+- [x] Analysis history page
+- [x] Unified design system + animated loading screen
+- [x] Deployed to production on Render.com
 
 ---
 
 ## 📚 Documentation
 
-Ce projet est construit **en public** avec documentation complète :
+This project is built **in public** with full documentation:
 
 - [📋 Product Brief](docs/PRODUCT_BRIEF.md) — Vision, features, roadmap
-- [🔧 Tech Decisions](docs/TECH_DECISIONS.md) — Décisions architecturales
-- [📅 Weekly Updates](docs/weekly-updates/) — Progression hebdomadaire
-- [🤖 AI Usage](docs/ai-usage/) — Comment l'IA a été utilisée
-- [🎨 Portfolio](docs/portfolio/) — Case study & démo
+- [🔧 Tech Decisions](docs/TECH_DECISIONS.md) — Architectural decisions
+- [📅 Weekly Updates](docs/weekly-updates/) — Weekly progress
+- [🤖 AI Usage](docs/ai-usage/) — How AI was used throughout the project
+- [🎨 Portfolio](docs/portfolio/) — Case study & demo
 
 ---
 
-## 👤 Auteure
+## 👤 Author
 
-**Inès Kaci**
-Product Manager en reconversion
-Le Wagon São Paulo — Batch #2203
+**Inès Kaci**  
+Product Manager — Le Wagon São Paulo, Batch #2203
 
 🔗 [LinkedIn](https://linkedin.com/in/ton-profil) | 🐙 [GitHub](https://github.com/Ineskcj)
 
@@ -81,17 +81,17 @@ Le Wagon São Paulo — Batch #2203
 
 ## 📝 License
 
-MIT — Ce projet est open-source et créé à des fins pédagogiques et de portfolio.
+MIT — This project is open-source, built for learning and portfolio purposes.
 
 ---
 
 ## 🙏 Build in Public
 
-Ce projet est documenté publiquement pour :
-- Partager mes apprentissages
-- Aider d'autres PM en reconversion
-- Démontrer mon process produit
+This project is publicly documented to:
+- Share my learnings
+- Help other PMs transitioning into tech
+- Showcase my product process
 
-**Suivez ma progression** et n'hésitez pas à poser des questions ou suggérer des améliorations !
+**Follow my progress** and feel free to ask questions or suggest improvements!
 
-⭐ Si ce projet vous inspire, laissez une star !
+⭐ If this project inspires you, leave a star!
